@@ -1,0 +1,13 @@
+# Dependencies for running all unit tests (including those that require heavy ML frameworks)
+
+# Include core test dependencies
+-r requirements-test-core.txt
+
+# Heavy ML frameworks
+torch
+torchvision
+skorch
+datasets
+
+# Additional dev-only tools
+pre-commit

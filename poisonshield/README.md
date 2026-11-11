@@ -151,7 +151,15 @@ detectors.
 - Sanitisation can reduce model performance. The measured delta is reported as-is, with
   explicit caveats.
 
-## Running tests
+## GPU support
+
+For NVIDIA GPU acceleration, install the CUDA build of PyTorch instead of the CPU build:
+
+```bash
+pip install -r requirements-gpu.txt
+```
+
+The application automatically uses CUDA when `torch.cuda.is_available()` is true. CPU execution remains fully supported.
 
 ```bash
 pytest -q

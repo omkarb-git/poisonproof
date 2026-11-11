@@ -1,0 +1,8 @@
+.venv/
+.poisonshield/
+__pycache__/
+*.pyc
+.pytest_cache/
+.git/
+sample_data/images_sample/
+*.zip

@@ -39,6 +39,8 @@ def _render_sidebar() -> None:
             """,
             unsafe_allow_html=True,
         )
+        if "ps_nav_pending" in st.session_state:
+            st.session_state["ps_nav"] = st.session_state.pop("ps_nav_pending")
         st.radio("Navigate", SECTIONS, key="ps_nav", label_visibility="collapsed")
         st.divider()
 

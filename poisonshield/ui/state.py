@@ -159,5 +159,5 @@ def build_analysis_config(dataset: LoadedDataset) -> AnalysisConfig:
 
 
 def go_to(section: str) -> None:
-    st.session_state["ps_nav"] = section
+    st.session_state["ps_nav_pending"] = section
     st.rerun()

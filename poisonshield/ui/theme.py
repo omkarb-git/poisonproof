@@ -113,10 +113,148 @@ div[data-testid="stMetricValue"] { color: var(--ps-teal); }
 section[data-testid="stSidebar"] {
   background: linear-gradient(180deg, #07111f 0%, #0b1f2f 100%);
   border-right: 1px solid #123447;
+  color: #e6f6fa;
 }
-section[data-testid="stSidebar"] * { color: #e6f6fa; }
-section[data-testid="stSidebar"] .ps-muted { color: #8fb3c2; }
-section[data-testid="stSidebar"] input { color: #0b1f2f !important; }
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] h4,
+section[data-testid="stSidebar"] h5,
+section[data-testid="stSidebar"] h6,
+section[data-testid="stSidebar"] div[data-testid="stMarkdownContainer"] {
+  color: #e6f6fa;
+}
+section[data-testid="stSidebar"] .ps-muted,
+section[data-testid="stSidebar"] .stCaption,
+section[data-testid="stSidebar"] small {
+  color: #8fb3c2 !important;
+}
+
+/* Sidebar Metric Box: sleek dark container with clear bright numbers */
+section[data-testid="stSidebar"] div[data-testid="stMetric"],
+[data-testid="stSidebar"] [data-testid="stMetric"],
+[data-testid="stSidebarContent"] [data-testid="stMetric"] {
+  background: #0d2236 !important;
+  border: 1px solid #1a3d54 !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+}
+section[data-testid="stSidebar"] [data-testid="stMetricLabel"],
+section[data-testid="stSidebar"] [data-testid="stMetricLabel"] *,
+[data-testid="stSidebar"] [data-testid="stMetricLabel"],
+[data-testid="stSidebar"] [data-testid="stMetricLabel"] * {
+  color: #7dd3fc !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+}
+section[data-testid="stSidebar"] [data-testid="stMetricValue"],
+section[data-testid="stSidebar"] [data-testid="stMetricValue"] *,
+[data-testid="stSidebar"] [data-testid="stMetricValue"],
+[data-testid="stSidebar"] [data-testid="stMetricValue"] * {
+  color: #38bdf8 !important;
+  font-weight: 800 !important;
+}
+
+/* Sidebar Expander (Session Management) */
+section[data-testid="stSidebar"] div[data-testid="stExpander"],
+[data-testid="stSidebar"] [data-testid="stExpander"],
+[data-testid="stSidebar"] details {
+  background: #0d2236 !important;
+  border: 1px solid #1a3d54 !important;
+  border-radius: 10px !important;
+}
+section[data-testid="stSidebar"] div[data-testid="stExpander"] summary,
+[data-testid="stSidebar"] [data-testid="stExpander"] summary,
+[data-testid="stSidebar"] details summary {
+  background: #0d2236 !important;
+  color: #e6f6fa !important;
+  border-radius: 10px !important;
+}
+section[data-testid="stSidebar"] div[data-testid="stExpander"] summary *,
+[data-testid="stSidebar"] [data-testid="stExpander"] summary *,
+[data-testid="stSidebar"] details summary * {
+  color: #e6f6fa !important;
+}
+section[data-testid="stSidebar"] div[data-testid="stExpander"] summary:hover,
+[data-testid="stSidebar"] [data-testid="stExpander"] summary:hover,
+[data-testid="stSidebar"] details summary:hover {
+  background: #132f4c !important;
+}
+section[data-testid="stSidebar"] div[data-testid="stExpander"] summary:hover *,
+[data-testid="stSidebar"] [data-testid="stExpander"] summary:hover *,
+[data-testid="stSidebar"] details summary:hover * {
+  color: #38bdf8 !important;
+}
+section[data-testid="stSidebar"] div[data-testid="stExpander"] summary svg,
+[data-testid="stSidebar"] [data-testid="stExpander"] summary svg {
+  fill: #7dd3fc !important;
+}
+section[data-testid="stSidebar"] div[data-testid="stExpander"] div[data-testid="stExpanderDetails"],
+[data-testid="stSidebar"] [data-testid="stExpanderDetails"] {
+  background: #0a1b2b !important;
+  border-top: 1px solid #1a3d54 !important;
+}
+
+/* Sidebar Buttons (Clear analysis, Clear dataset) - ALWAYS visible & crisp */
+section[data-testid="stSidebar"] button,
+section[data-testid="stSidebar"] button[kind="secondary"],
+section[data-testid="stSidebar"] [data-testid="baseButton-secondary"],
+section[data-testid="stSidebar"] [data-testid="stBaseButton-secondary"],
+section[data-testid="stSidebar"] .stButton > button,
+[data-testid="stSidebar"] button,
+[data-testid="stSidebar"] button[kind="secondary"],
+[data-testid="stSidebar"] [data-testid="baseButton-secondary"],
+[data-testid="stSidebar"] [data-testid="stBaseButton-secondary"],
+[data-testid="stSidebar"] .stButton > button {
+  background: #11283d !important;
+  color: #e0f2fe !important;
+  border: 1px solid #1e4968 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.15s ease-in-out;
+}
+section[data-testid="stSidebar"] button *,
+[data-testid="stSidebar"] button *,
+[data-testid="stSidebar"] .stButton > button * {
+  color: #e0f2fe !important;
+}
+section[data-testid="stSidebar"] button:hover,
+section[data-testid="stSidebar"] button[kind="secondary"]:hover,
+section[data-testid="stSidebar"] .stButton > button:hover,
+[data-testid="stSidebar"] button:hover,
+[data-testid="stSidebar"] .stButton > button:hover {
+  background: #163856 !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25) !important;
+}
+section[data-testid="stSidebar"] button:hover *,
+[data-testid="stSidebar"] button:hover *,
+[data-testid="stSidebar"] .stButton > button:hover * {
+  color: #ffffff !important;
+}
+
+/* Sidebar Text Input (Reviewer name) */
+section[data-testid="stSidebar"] div[data-baseweb="input"] {
+  background: #0d2236 !important;
+  border: 1px solid #1a3d54 !important;
+  border-radius: 8px !important;
+}
+section[data-testid="stSidebar"] div[data-baseweb="input"] input {
+  color: #e6f6fa !important;
+  background: transparent !important;
+}
+section[data-testid="stSidebar"] div[data-baseweb="input"] input::placeholder {
+  color: #64748b !important;
+}
+section[data-testid="stSidebar"] div[data-baseweb="input"]:focus-within {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 1px #38bdf8 !important;
+}
+
 section[data-testid="stSidebar"] div[role="radiogroup"] label {
   padding: 4px 2px;
   border-radius: 8px;

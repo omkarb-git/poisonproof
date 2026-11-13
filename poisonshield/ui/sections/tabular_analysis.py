@@ -169,12 +169,24 @@ def render() -> None:
 
     with tabs[3]:
         meta = bundle.features.meta or {}
-        st.markdown("#### Representation metadata")
-        st.json(meta)
-        st.caption(
-            f"Feature matrix: {bundle.features.matrix.shape[0]:,} rows × "
-            f"{bundle.features.matrix.shape[1]:,} dimensions."
-        )
+        st.markdown("#### Feature Representation Summary")
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            st.metric("Matrix Rows", f"{bundle.features.matrix.shape[0]:,}")
+            st.caption("Analyzable samples")
+        with c2:
+            st.metric("Feature Dim", f"{bundle.features.matrix.shape[1]:,}")
+            st.caption(f"SVD components: {meta.get('svd_components', 'N/A')}")
+        with c3:
+            num_cols = len(meta.get("numeric_columns", []))
+            st.metric("Numeric Columns", f"{num_cols:,}")
+            st.caption(f"{len(meta.get('categorical_columns', [])):,} categorical")
+        with c4:
+            st.metric("Build Time", format_duration(bundle.timings.get("feature_build")))
+            st.caption(f"Probabilities: {format_duration(bundle.timings.get('predicted_probabilities'))}")
+
+        with st.expander("Technical metadata & raw details", expanded=False):
+            st.json(meta)
         st.markdown("#### Excluded columns and integrity notes")
         if bundle.risk.missing_evidence:
             st.warning("Unavailable evidence: " + ", ".join(bundle.risk.missing_evidence))

@@ -76,16 +76,37 @@ def render() -> None:
             callout("Cleanlab returned no issue summary rows.", "danger")
         else:
             st.dataframe(bundle.audit.summary, width="stretch", hide_index=True)
-        st.markdown("#### Extractor metadata")
-        st.json(meta)
-        st.markdown("#### Processing time")
-        st.write(
-            {
-                key: format_duration(value)
-                for key, value in bundle.timings.items()
-                if key in {"feature_build", "predicted_probabilities", "cleanlab_audit", "total"}
-            }
-        )
+        st.markdown("#### Extractor & Processing Summary")
+        m_col1, m_col2, m_col3, m_col4 = st.columns(4)
+        with m_col1:
+            st.metric("Extractor Model", str(meta.get("extractor_label", meta.get("extractor", "N/A"))))
+            st.caption(f"Device: {str(meta.get('device', 'cpu')).upper()}")
+        with m_col2:
+            st.metric("Embedding Dim", f"{meta.get('embedding_dim', 'N/A')}")
+            st.caption(f"Batch size: {meta.get('batch_size', 'auto')}")
+        with m_col3:
+            hits = meta.get("cache_hits", 0)
+            misses = meta.get("cache_misses", 0)
+            st.metric("Cache Hits", f"{hits:,}")
+            st.caption(f"{misses:,} fresh extractions")
+        with m_col4:
+            st.metric("Total Time", format_duration(bundle.timings.get("total")))
+            st.caption(f"Feature build: {format_duration(bundle.timings.get('feature_build'))}")
+
+        st.markdown("#### Processing Time Breakdown")
+        t_col1, t_col2, t_col3, t_col4 = st.columns(4)
+        with t_col1:
+            st.metric("1. Feature Build", format_duration(bundle.timings.get("feature_build")))
+        with t_col2:
+            st.metric("2. Probabilities", format_duration(bundle.timings.get("predicted_probabilities")))
+        with t_col3:
+            st.metric("3. Cleanlab Audit", format_duration(bundle.timings.get("cleanlab_audit")))
+        with t_col4:
+            rel_risk = (bundle.timings.get("relationships") or 0.0) + (bundle.timings.get("risk_scoring") or 0.0)
+            st.metric("4. Relationships & Risk", format_duration(rel_risk))
+
+        with st.expander("Technical metadata & raw details", expanded=False):
+            st.json(meta)
 
     with tabs[1]:
         scores = bundle.risk.scores

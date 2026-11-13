@@ -510,17 +510,47 @@ def _row_hash_overlap(
 
 def _render_quality(dataset, bundle) -> None:
     quality = bundle.risk.quality
-    st.markdown("#### Quality summary")
-    st.json({key: value for key, value in quality.items() if key not in {"notes"}})
+    st.markdown("#### Quality Summary")
+    q_col1, q_col2, q_col3, q_col4 = st.columns(4)
+    with q_col1:
+        st.metric("Quality Index", fmt(quality.get("quality_index"), 1))
+        st.caption("Overall dataset health (0–100)")
+    with q_col2:
+        st.metric("Label Issues", f"{quality.get('n_label_issues', 0):,}")
+        st.caption("Cleanlab detected errors")
+    with q_col3:
+        st.metric("Outliers", f"{quality.get('n_outliers', 0):,}")
+        st.caption("Distribution anomalies")
+    with q_col4:
+        st.metric("Duplicates", f"{quality.get('n_near_duplicates', 0):,}")
+        st.caption(f"{quality.get('n_exact_duplicates', 0):,} exact matches")
+
     st.markdown("#### Detector coverage")
     render_detector_status(bundle)
-    st.markdown("#### Timings and memory")
-    st.write(
-        {
+
+    st.markdown("#### Execution Performance")
+    p_col1, p_col2, p_col3, p_col4 = st.columns(4)
+    with p_col1:
+        st.metric("Total Duration", format_duration(bundle.timings.get("total")))
+        st.caption(f"Feature build: {format_duration(bundle.timings.get('feature_build'))}")
+    with p_col2:
+        st.metric("Audit Time", format_duration(bundle.timings.get("cleanlab_audit")))
+        st.caption(f"Probabilities: {format_duration(bundle.timings.get('predicted_probabilities'))}")
+    with p_col3:
+        rss_start = bundle.memory.get("rss_start_mb")
+        st.metric("Start RAM", f"{rss_start:.0f} MB" if rss_start else "N/A")
+        st.caption("Resident process memory")
+    with p_col4:
+        peak_mb = bundle.memory.get("tracemalloc_peak_mb")
+        st.metric("Peak Alloc", f"{peak_mb:.1f} MB" if peak_mb else "N/A")
+        st.caption("Tracemalloc peak heap")
+
+    with st.expander("Technical metadata & raw details", expanded=False):
+        st.json({
+            "quality": {key: value for key, value in quality.items() if key not in {"notes"}},
             "timings": {key: format_duration(value) for key, value in bundle.timings.items()},
             "memory": bundle.memory,
-        }
-    )
+        })
     st.markdown("#### Ground-truth evaluation caveats")
     st.markdown(
         "- Detector precision/recall require a trustworthy, independent ground-truth column. If the column "

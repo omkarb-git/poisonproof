@@ -104,16 +104,20 @@ def _render_tabular(dataset) -> None:
         groups = st.columns(4)
         with groups[0]:
             st.markdown("**Identifier-like**")
-            st.write(profile.id_like_columns or "None")
+            cols = profile.id_like_columns
+            st.markdown(", ".join(f"`{c}`" for c in cols) if cols else "*None*")
         with groups[1]:
             st.markdown("**Constant**")
-            st.write(profile.constant_columns or "None")
+            cols = profile.constant_columns
+            st.markdown(", ".join(f"`{c}`" for c in cols) if cols else "*None*")
         with groups[2]:
             st.markdown("**Entirely missing**")
-            st.write(profile.all_missing_columns or "None")
+            cols = profile.all_missing_columns
+            st.markdown(", ".join(f"`{c}`" for c in cols) if cols else "*None*")
         with groups[3]:
             st.markdown("**High cardinality**")
-            st.write(profile.high_cardinality_columns or "None")
+            cols = list(profile.high_cardinality_columns.keys()) if isinstance(profile.high_cardinality_columns, dict) else (profile.high_cardinality_columns or [])
+            st.markdown(", ".join(f"`{c}`" for c in cols) if cols else "*None*")
 
     with tabs[2]:
         missing = pd.DataFrame(
@@ -320,8 +324,18 @@ def _render_images(dataset) -> None:
 
     with tabs[4]:
         if dataset.extra_columns:
-            st.markdown("#### Mapping columns")
-            st.write(dataset.extra_columns)
+            st.markdown("#### Mapping Metadata Columns")
+            pills = " ".join(
+                f'<span class="ps-badge ps-info" style="font-size: 0.82rem; padding: 4px 10px; margin-right: 6px; font-weight: 600;">📋 {html.escape(str(c))}</span>'
+                for c in dataset.extra_columns
+            )
+            st.markdown(
+                f'<div class="ps-card" style="margin-bottom: 14px; padding: 14px 18px;">'
+                f'<div style="font-size: 0.76rem; font-weight: 700; color: var(--ps-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Detected Mapping Columns</div>'
+                f'<div>{pills}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
             rows = []
             for record in records[:2000]:
                 row = {"sample_id": record.sample_id, "rel_path": record.rel_path, "label": record.label}
